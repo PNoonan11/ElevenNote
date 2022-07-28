@@ -31,12 +31,13 @@ namespace ElevenNote.Services.User
             return numberOfChanges == 1;
         }
 
-        public async Task<UserDetail> GetUserByIdAsync(int userId)
+        public async Task<UserDetail?> GetUserByIdAsync(int userId)
         {
             var entity = await _context.Users.FindAsync(userId);
             if (entity is null)
+            {
                 return null;
-
+            }
             var userDetail = new UserDetail
             {
                 Id = entity.Id,

@@ -4,16 +4,16 @@ namespace ElevenNote.Models.User
 {
     public class UserRegister
     {
-        [Required]
+        // [Required]
         [EmailAddress]
         public string Email { get; set; }
-        [Required]
+        //[Required]
         [MinLength(4)]
         public string Username { get; set; }
-        [Required]
+        // [Required]
         [MinLength(4)]
         public string Password { get; set; }
-        [Required]
+        // [Required]
         [Compare(nameof(Password))]
         public string ConfirmPassword { get; set; }
     }
