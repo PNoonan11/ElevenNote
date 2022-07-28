@@ -7,6 +7,8 @@ using ElevenNote.Services.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using ElevenNote.Services.Token;
+using ElevenNote.Models.Tokens;
 
 namespace ElevenNote.WebAPI.Controllers
 {
@@ -14,10 +16,12 @@ namespace ElevenNote.WebAPI.Controllers
 
     public class UserController : ControllerBase
     {
-        private readonly IUserService _service;
-        public UserController(IUserService service)
+        private readonly ITokenService _tokenService;
+        private readonly IUserService _userService;
+        public UserController(IUserService userService, ITokenService tokenService)
         {
-            _service = service;
+            _userService = userService;
+            _tokenService = tokenService;
         }
 
         [HttpPost("Register")]
@@ -27,7 +31,7 @@ namespace ElevenNote.WebAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var registerResult = await _service.RegisterUserAsync(model);
+            var registerResult = await _userService.RegisterUserAsync(model);
             if (registerResult)
             {
                 return Ok("User was registered.");
@@ -39,12 +43,19 @@ namespace ElevenNote.WebAPI.Controllers
 
         public async Task<IActionResult> GetById([FromRoute] int userId)
         {
-            var userDetail = await _service.GetUserByIdAsync(userId);
+            var userDetail = await _userService.GetUserByIdAsync(userId);
             if (userDetail is null)
             {
                 return NotFound();
             }
             return Ok(userDetail);
+        }
+
+        [HttpPost("~/api/Token")]
+        public async Task<IActionResult> Token([FromBody] TokenRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
         }
 
 
