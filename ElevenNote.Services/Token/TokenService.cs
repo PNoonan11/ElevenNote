@@ -20,6 +20,7 @@ namespace ElevenNote.Services.Token
             _context = context;
             _configuration = configuration;
         }
+
         public async Task<TokenResponse> GetTokenAsync(TokenRequest model)
         {
             var userEntity = await GetValidUserAsync(model);

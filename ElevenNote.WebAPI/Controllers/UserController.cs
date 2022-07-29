@@ -56,6 +56,12 @@ namespace ElevenNote.WebAPI.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            var tokenResponse = await _tokenService.GetTokenAsync(request);
+            if (tokenResponse is null)
+                return BadRequest("Invalid username or password.");
+
+            return Ok(tokenResponse);
         }
 
 
