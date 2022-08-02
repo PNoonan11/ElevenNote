@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ElevenNote.Services.Token;
 using Microsoft.OpenApi.Models;
+using ElevenNote.Services.Note;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +14,10 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
 //Adding user Service/interface for dependency injection
+builder.Services.AddHttpContextAccessor(); // HTTP CONTEXT DI  implementation 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<INoteService, NoteService>();
 
 var jwtConfig = builder.Configuration.GetSection("Jwt");
 var secretKey = jwtConfig["Key"];
@@ -82,3 +85,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+
+
