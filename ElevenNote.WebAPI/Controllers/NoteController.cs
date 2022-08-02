@@ -41,6 +41,17 @@ namespace ElevenNote.WebAPI.Controllers
             return Ok(notes);
         }
 
+        [HttpGet("{noteId:int}")]
+        public async Task<IActionResult> GetNoteById([FromRoute] int noteId)
+        {
+            var detail = await _noteService.GetNoteByIdAsync(noteId);
+
+            // Similar to our service method, were using a ternary to determine our return type
+            //if the returned value (detail) is not null, return it witha 200 ok
+            //Otherwise return a NotFound() 404 response.
+            return detail is not null ? Ok(detail) : NotFound();
+        }
+
 
 
     }
