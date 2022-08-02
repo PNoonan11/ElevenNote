@@ -1,7 +1,11 @@
+using ElevenNote.Models.Note;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
 namespace ElevenNote.Services.Note
 {
     public interface INoteService
     {
-         
+        Task<IEnumerable<NoteListItem>> GetAllNotesAsync();
     }
 }
