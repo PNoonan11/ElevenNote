@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using ElevenNote.Services.Token;
 using Microsoft.OpenApi.Models;
 using ElevenNote.Services.Note;
+using ElevenNote.Models.Maps;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ builder.Services.AddHttpContextAccessor(); // HTTP CONTEXT DI  implementation
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<INoteService, NoteService>();
+builder.Services.AddAutoMapper(typeof(NoteMapProfile));
 
 var jwtConfig = builder.Configuration.GetSection("Jwt");
 var secretKey = jwtConfig["Key"];
@@ -75,6 +77,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
 }
 
 app.UseHttpsRedirection();

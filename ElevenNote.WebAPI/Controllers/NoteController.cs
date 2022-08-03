@@ -22,6 +22,7 @@ namespace ElevenNote.WebAPI.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(IEnumerable<NoteCreate>), 200)]
         public async Task<IActionResult> CreateNote([FromBody] NoteCreate request)
         {
             if (!ModelState.IsValid)
@@ -35,6 +36,7 @@ namespace ElevenNote.WebAPI.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<NoteListItem>), 200)]
         public async Task<IActionResult> GetAllNotes()
         {
             var notes = await _noteService.GetAllNotesAsync();
@@ -42,6 +44,7 @@ namespace ElevenNote.WebAPI.Controllers
         }
 
         [HttpGet("{noteId:int}")]
+        [ProducesResponseType(typeof(IEnumerable<NoteDetail>), 200)]
         public async Task<IActionResult> GetNoteById([FromRoute] int noteId)
         {
             var detail = await _noteService.GetNoteByIdAsync(noteId);
@@ -62,7 +65,7 @@ namespace ElevenNote.WebAPI.Controllers
         }
 
         //DELETES api/Note/5
-        [HttpDelete("{noteId:int")]
+        [HttpDelete("{noteId:int}")]
         public async Task<IActionResult> DeleteNote([FromRoute] int noteId)
         {
             return await _noteService.DeleteNoteAsync(noteId) ? Ok($"Note {noteId} was deleted successfully.") : BadRequest($"Note {noteId} could not be deleted.");
