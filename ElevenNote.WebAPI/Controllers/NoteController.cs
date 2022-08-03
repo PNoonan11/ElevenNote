@@ -52,6 +52,15 @@ namespace ElevenNote.WebAPI.Controllers
             return detail is not null ? Ok(detail) : NotFound();
         }
 
+        [HttpPut]
+        public async Task<IActionResult> UpdateNoteById([FromBody] NoteUpdate request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return await _noteService.UpdateNoteAsync(request) ? Ok("Note Updated successfully.") : BadRequest("Note could not be updated. ");
+        }
+
 
 
     }
