@@ -8,6 +8,7 @@ using ElevenNote.Services.Token;
 using Microsoft.OpenApi.Models;
 using ElevenNote.Services.Note;
 using ElevenNote.Models.Maps;
+using ElevenNote.Services.Category;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,24 +20,25 @@ builder.Services.AddHttpContextAccessor(); // HTTP CONTEXT DI  implementation
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<INoteService, NoteService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddAutoMapper(typeof(NoteMapProfile));
 
 var jwtConfig = builder.Configuration.GetSection("Jwt");
 var secretKey = jwtConfig["Key"];
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
- {
-     options.RequireHttpsMetadata = false;
-     options.SaveToken = true;
-     options.TokenValidationParameters = new TokenValidationParameters
-     {
-         ValidateIssuer = true,
-         ValidateAudience = true,
-         ValidIssuer = jwtConfig["Issuer"],
-         ValidAudience = jwtConfig["Audience"],
-         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
-     };
- });
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidIssuer = jwtConfig["Issuer"],
+        ValidAudience = jwtConfig["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+    };
+});
 // Add services to the container.
 
 builder.Services.AddControllers();
