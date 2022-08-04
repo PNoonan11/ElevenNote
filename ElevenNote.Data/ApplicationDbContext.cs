@@ -16,7 +16,12 @@ namespace ElevenNote.Data
             modelBuilder.Entity<NoteEntity>()
                 .HasOne(n => n.Owner)
                 .WithMany(p => p.Notes)
+                .HasForeignKey(n => n.CategoryId)
                 .HasForeignKey(n => n.OwnerId);
+
+
+
+
         }
     }
 }
