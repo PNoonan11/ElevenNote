@@ -55,6 +55,13 @@ namespace ElevenNote.WebAPI.Controllers
             return detail is not null ? Ok(detail) : NotFound();
         }
 
+        [HttpGet("{IsStarred:bool}")]
+        public async Task<IActionResult> GetNoteByIsStarred([FromRoute] bool star)
+        {
+            var detail = await _noteService.GetNoteByIsStarredAsync(star);
+            return detail is not null ? Ok(detail) : NotFound();
+        }
+
         [HttpPut]
         public async Task<IActionResult> UpdateNoteById([FromBody] NoteUpdate request)
         {

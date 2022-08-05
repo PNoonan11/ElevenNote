@@ -71,6 +71,15 @@ namespace ElevenNote.Services.Note
             // };
         }
 
+        public async Task<NoteDetail> GetNoteByIsStarredAsync(bool star)
+        {
+            //Find the first note that has the given Id and an OwnerId that matches the requesting userId
+            var noteEntity = await _dbContext.Notes
+                .FirstOrDefaultAsync(e => e.IsStarred == star && e.OwnerId == _userId);
+
+            return noteEntity is null ? null : _mapper.Map<NoteDetail>(noteEntity);
+        }
+
         public async Task<bool> UpdateNoteAsync(NoteUpdate request)
         {
             // // Find the note and validate its owned by the user. This is all used without mapping.
