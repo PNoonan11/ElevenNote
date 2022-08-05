@@ -8,5 +8,6 @@ namespace ElevenNote.Models.Category
         public string CategoryName { get; set; }
 
 
+
     }
 }

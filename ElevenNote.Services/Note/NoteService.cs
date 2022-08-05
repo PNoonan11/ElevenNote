@@ -11,6 +11,7 @@ namespace ElevenNote.Services.Note
     public class NoteService : INoteService
     {
         private readonly int _userId;
+        private readonly int _categoryId;
         private readonly IMapper _mapper;
         private readonly ApplicationDbContext _dbContext;
         public NoteService(IHttpContextAccessor httpContextAccessor, IMapper mapper, ApplicationDbContext dbContext)

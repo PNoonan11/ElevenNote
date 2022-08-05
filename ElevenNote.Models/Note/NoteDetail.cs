@@ -7,5 +7,7 @@ namespace ElevenNote.Models.Note
         public string Content { get; set; }
         public DateTimeOffset CreatedUtc { get; set; }
         public DateTimeOffset? ModifiedUtc { get; set; }
+        public int Category { get; set; }
+        public bool IsStarred { get; set; }
     }
 }

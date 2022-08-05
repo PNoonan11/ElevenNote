@@ -21,6 +21,8 @@ namespace ElevenNote.Services.User
             {
                 Email = model.Email,
                 Username = model.Username,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
                 Password = model.Password,
                 DateCreated = DateTime.Now
             };

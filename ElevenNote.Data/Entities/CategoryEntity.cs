@@ -1,15 +1,14 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ElevenNote.Data.Entities
 {
     public class CategoryEntity
     {
         [Key]
-        public int Id { get; set; }
+        public int CategoryId { get; set; }
         [Required]
         public string CategoryName { get; set; }
-        [Required]
-
-        public int CategoryId { get; set; }
+        public List<NoteEntity> Note { get; set; }
     }
 }

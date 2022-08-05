@@ -11,5 +11,7 @@ namespace ElevenNote.Models.Note
         [Required]
         [MaxLength(8000, ErrorMessage = "{0} must contain no more than {1} characters.")]
         public string Content { get; set; }
+        public int Category { get; set; }
+        public bool IsStarred { get; set; }
     }
 }

@@ -1,14 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ElevenNote.Models.User;
-using ElevenNote.Services.User;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using ElevenNote.Services.Token;
-using ElevenNote.Models.Tokens;
 using ElevenNote.Services.Category;
 using ElevenNote.Models.Category;
 
