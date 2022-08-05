@@ -37,10 +37,11 @@ namespace ElevenNote.WebAPI.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<NoteListItem>), 200)]
-        public async Task<IActionResult> GetAllNotes()
+        public async Task<IActionResult> GetAllNotes(NoteParameters noteParameters)
         {
             var notes = await _noteService.GetAllNotesAsync();
             return Ok(notes);
+
         }
 
         [HttpGet("{noteId:int}")]
@@ -78,6 +79,20 @@ namespace ElevenNote.WebAPI.Controllers
             return await _noteService.DeleteNoteAsync(noteId) ? Ok($"Note {noteId} was deleted successfully.") : BadRequest($"Note {noteId} could not be deleted.");
         }
 
+
+
+        // HELPER METHODS
+        public class NoteParameters
+        {
+            private int maxPageSize = 50;
+            public int PageNumber { get; set; } = 1;
+            private int _pageSize = 10;
+            public int PageSize
+            {
+                get { return _pageSize; }
+                set { _pageSize = (value > maxPageSize) ? maxPageSize : value; }
+            }
+        }
 
 
 
