@@ -55,7 +55,7 @@ namespace ElevenNote.WebAPI.Controllers
             // Similar to our service method, were using a ternary to determine our return type
             //if the returned value (detail) is not null, return it witha 200 ok
             //Otherwise return a NotFound() 404 response.
-            return detail is not null ? Ok(detail) : NotFound();
+            return detail is not null ? Ok(new Response<NoteDetail>(detail)) : NotFound();
         }
 
         [HttpGet("{IsStarred:bool}")]
@@ -83,15 +83,7 @@ namespace ElevenNote.WebAPI.Controllers
 
 
 
-        // HELPER METHODS
-        // [HttpGet]
-        // [ProducesResponseType(typeof(IEnumerable<NoteListItem>), 200)]
-        // public async Task<IActionResult> GetNotes([FromQuery] string filter)
-        // {
-        //     var notes = await _noteService.GetNotesPaged(filter);
-        //     return Ok(notes);
 
-        // }
 
 
 
