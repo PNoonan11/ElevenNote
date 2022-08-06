@@ -1,8 +1,10 @@
 using System.Security.Claims;
+using System.Text.Json;
 using AutoMapper;
 using ElevenNote.Data;
 using ElevenNote.Data.Entities;
 using ElevenNote.Models.Note;
+using ElevenNote.Services.Wrappers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
@@ -44,14 +46,22 @@ namespace ElevenNote.Services.Note
             var numberOfChanges = await _dbContext.SaveChangesAsync();
             return numberOfChanges == 1;
         }
-        public async Task<IEnumerable<NoteListItem>> GetAllNotesAsync()
+        public async Task<IEnumerable<NoteListItem>> GetAllNotesAsync(PaginationFilter @filter, HttpContext httpContext)
         {
-            var notes = await _dbContext.Notes
+            var notes = _dbContext.Notes
                 .Where(entity => entity.OwnerId == _userId)
-                .Select(entity => _mapper.Map<NoteListItem>(entity))
+                .OrderBy(p => p.Id)
+                .Select(entity => _mapper.Map<NoteListItem>(entity));
+
+
+            var paginationMetadata = new PaginationMetadata(notes.Count(), @filter.PageNumber, @filter.PageSize);
+            httpContext.Response.Headers.Add("Pagination", JsonSerializer.Serialize(paginationMetadata));
+
+            var items = await notes.Skip((@filter.PageNumber - 1) * @filter.PageSize)
+                .Take(@filter.PageSize)
                 .ToListAsync();
 
-            return notes;
+            return items;
         }
 
         public async Task<NoteDetail> GetNoteByIdAsync(int noteId)
@@ -143,6 +153,8 @@ namespace ElevenNote.Services.Note
             _dbContext.Notes.Remove(noteEntity);
             return await _dbContext.SaveChangesAsync() == 1;
 
+
         }
+
     }
 }

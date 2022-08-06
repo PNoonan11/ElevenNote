@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ElevenNote.Models.Note;
 using ElevenNote.Services.Note;
+using ElevenNote.Services.Wrappers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -37,10 +38,11 @@ namespace ElevenNote.WebAPI.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<NoteListItem>), 200)]
-        public async Task<IActionResult> GetAllNotes(NoteParameters noteParameters)
+
+        public async Task<IActionResult> GetAllNotes([FromQuery] PaginationFilter filter)
         {
-            var notes = await _noteService.GetAllNotesAsync();
-            return Ok(notes);
+            var notes = await _noteService.GetAllNotesAsync(filter, HttpContext);
+            return Ok(new Response<IEnumerable<NoteListItem>>(notes));
 
         }
 
@@ -82,17 +84,14 @@ namespace ElevenNote.WebAPI.Controllers
 
 
         // HELPER METHODS
-        public class NoteParameters
-        {
-            private int maxPageSize = 50;
-            public int PageNumber { get; set; } = 1;
-            private int _pageSize = 10;
-            public int PageSize
-            {
-                get { return _pageSize; }
-                set { _pageSize = (value > maxPageSize) ? maxPageSize : value; }
-            }
-        }
+        // [HttpGet]
+        // [ProducesResponseType(typeof(IEnumerable<NoteListItem>), 200)]
+        // public async Task<IActionResult> GetNotes([FromQuery] string filter)
+        // {
+        //     var notes = await _noteService.GetNotesPaged(filter);
+        //     return Ok(notes);
+
+        // }
 
 
 
